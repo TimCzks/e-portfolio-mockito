@@ -1,5 +1,8 @@
 package projectClasses;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AutoZulieferung {
 
 	private double steel = 0;
@@ -7,46 +10,48 @@ public class AutoZulieferung {
 	private int plastic = 0;
 	private double rubber = 0;
 
-	public boolean produceParts(int sheetMetals, int windows, int tires, int interior) {
-		return produceSheetMetals(sheetMetals) && produceWindows(windows) && produceTires(tires)
-				&& produceInterior(interior);
+	public List<Integer> produceParts(int sheetMetals, int windows, int tires, int interior) throws Exception {
+		List<Integer> carParts = new ArrayList<>();
+		carParts.add(produceSheetMetals(sheetMetals));
+		carParts.add(produceWindows(windows));
+		carParts.add(produceTires(tires));
+		carParts.add(produceInterior(interior));
+		return carParts;
 
 	}
 
-	private boolean produceSheetMetals(int amount) {
-		// TODO: Check, if enough resources are there
+	private int produceSheetMetals(int amount) throws Exception {
 		if (steel < (amount * 2))
-			return false;
-
+			throw new Exception("Not enough resources.");
 		steel -= amount * 2;
-		return true;
+		return amount;
 	}
 
-	private boolean produceWindows(int amount) {
+	private int produceWindows(int amount) throws Exception {
 		if (glass < amount)
-			return false;
+			throw new Exception("Not enough resources.");
 		glass -= amount;
-		return true;
+		return amount;
 	}
 
-	private boolean produceTires(int amount) {
+	private int produceTires(int amount) throws Exception {
 		if (rubber < (amount * 5) || steel < amount)
-			return false;
+			throw new Exception("Not enough resources.");
 		rubber -= amount * 5;
 		steel -= amount;
-		return true;
+		return amount;
 	}
 
-	private boolean produceInterior(int amount) {
+	private int produceInterior(int amount) throws Exception {
 		if (plastic < (amount * 5) || rubber < amount || glass < amount)
-			return false;
+			throw new Exception("Not enough resources.");
 		rubber -= amount;
 		plastic -= amount * 20;
 		glass -= amount;
-		return true;
+		return amount;
 	}
 
-	private void getResources() {
+	public void getResources() {
 		// Add another Class 'RessourcenVerteiler'
 		steel += 50;
 		glass += 20;
