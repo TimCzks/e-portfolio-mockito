@@ -34,9 +34,15 @@ public class CarProduction {
 		carParts = carPartsDelivery.produceParts(amountOfCars * 8, amountOfCars * 5, amountOfCars * 4, amountOfCars);
 	}
 
-	public boolean sellCars(int amount) {
-		this.cars -= amount;
+	public boolean trySellingCars(int amount) {
 		return cars >= 0;
+	}
+	
+	public void sellCars(int amount) throws Exception {
+		if(trySellingCars(amount)) {
+			this.cars -= amount;
+		} else
+			throw new Exception("Not enough cars");
 	}
 
 }

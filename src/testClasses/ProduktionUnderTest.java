@@ -75,5 +75,19 @@ class ProduktionUnderTest extends CarProduction {
 		}
 		Assert.assertTrue(thrown.getMessage().contains("Not enough of something."));
 	}
+	
+	@Test
+	public void testTrySellingCars() {
+		Mockito.when(autoProduktion.trySellingCars(Mockito.isA(Integer.class))).thenReturn(true);
+		assertEquals(true, autoProduktion.trySellingCars(2));
+	}
+	@Test
+	public void testSellingCars() throws Exception {
+		Mockito.when(autoProduktion.trySellingCars(Mockito.isA(Integer.class))).thenReturn(true);
+		Mockito.doCallRealMethod().when(autoProduktion).sellCars(Mockito.isA(Integer.class));
+		autoProduktion.sellCars(2);
+		Mockito.verify(autoProduktion, Mockito.atLeastOnce()).trySellingCars(2);
+		//trySellingCars is called atLeastOnce
+	}
 
 }
